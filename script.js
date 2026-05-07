@@ -422,7 +422,8 @@ const contentData = {
                     <strong>Idea:</strong> Se tomó como inspiracion el juego de Super Mario Bros 3.<br><br>
                     <strong>Código:</strong> Se hizo una mezcla entre código propio, generado por IA y reciclado de otros proyectos.<br><br>
                     <strong>Imágenes:</strong> Todas las imágenes fueron generadas con Nano Banana 2.<br><br>
-                    <strong>Sonido:</strong> Al igual que algunas partes del código, se tomaron en cuenta proyectos en GitHub, en especial: https://github.com/Izay0i/SuperMarioBros3
+                    <strong>Sonido:</strong> Al igual que algunas partes del código, se tomaron en cuenta proyectos en GitHub, en especial: https://github.com/Izay0i/SuperMarioBros3<br><br>
+                    <strong>Mi repositorio:</strong> https://github.com/parisschool/pagina_web
                 </p>
             </div>
         </div>
