@@ -557,7 +557,7 @@ body, html {
 .redes-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
 }
 
 .redes-item {

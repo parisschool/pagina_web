@@ -367,16 +367,6 @@ const contentData = {
                     </div>
 
                     <div class="redes-item">
-                        <img src="assets/red-2.jpg" class="redes-icon-image" alt="Facebook">
-                        <p>&nbsp;</p>
-                    </div>
-
-                    <div class="redes-item">
-                        <img src="assets/red-3.jpg" class="redes-icon-image" alt="WhatsApp">
-                        <p>&nbsp;</p>
-                    </div>
-
-                    <div class="redes-item">
                         <img src="assets/red-4.jpg" class="redes-icon-image" alt="Outlook">
                         <p>plopezru@itam.mx</p>
                     </div>
