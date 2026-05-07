@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Mundo de Presentación</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Contenedor principal del "Juego" -->
+    <div id="game-container">
+        <!-- El mapa de fondo -->
+        <img src="assets/mapa.png" id="mapa" alt="Mapa del mundo de Mario">
+
+        <!-- El personaje jugador -->
+        <div id="player"></div>
+
+        <!-- Puntos de interacción (ejemplos) -->
+        <div class="poi" id="school" style="top: 200px; left: 300px;"></div>
+        <div class="poi" id="family" style="top: 400px; left: 500px;"></div>
+    </div>
+
+    <div id="touch-controls" aria-label="Controles tactiles">
+        <button type="button" class="touch-btn touch-up" data-action="up" aria-label="Arriba">↑</button>
+        <button type="button" class="touch-btn touch-left" data-action="left" aria-label="Izquierda">←</button>
+        <button type="button" class="touch-btn touch-enter" data-action="enter" aria-label="Enter">ENTER</button>
+        <button type="button" class="touch-btn touch-right" data-action="right" aria-label="Derecha">→</button>
+        <button type="button" class="touch-btn touch-down" data-action="down" aria-label="Abajo">↓</button>
+    </div>
+
+    <button id="mute-button" type="button" aria-label="Silenciar sonido">MUTE: OFF</button>
+
+    <script src="script.js"></script>
+    <div id="modal-container" class="modal-hidden">
+        <div id="modal-content">
+            <span id="close-button">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body">
+                </div>
+        </div>
+    </div>
+</body>
+</html>

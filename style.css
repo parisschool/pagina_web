@@ -1,0 +1,604 @@
+/* --- IMPORTACIÓN DE FUENTE --- */
+@font-face {
+    font-family: 'RetroGaming';
+    src: url('Retro Gaming.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- CONFIGURACIÓN GENERAL --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('assets/fondo-1.png'); 
+    background-size: cover;      
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    background-blend-mode: darken;
+    /* Fuente aplicada globalmente */
+    font-family: 'RetroGaming', sans-serif; 
+}
+
+/* --- CONTENEDOR DEL JUEGO --- */
+#game-container {
+    position: relative;
+    width: 100vw;       
+    max-width: 1200px; 
+    aspect-ratio: 16 / 10; 
+    margin: 5px auto;
+    background-color: #000;
+    border: 4px solid #000;
+    overflow: hidden;
+}
+
+#mapa {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: fill; 
+}
+
+#player {
+    position: absolute;
+    width: 12%;  
+    height: 12%; 
+    background-image: url('assets/personaje.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    image-rendering: pixelated; 
+    z-index: 10;
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- MODAL (POP-UP) --- */
+#modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-hidden {
+    display: none !important;
+}
+
+#modal-content {
+    background-color: #5c94fc; /* Fondo sólido para que no se vea el mapa */
+    padding: 0; 
+    border: 6px solid #000;
+    width: 90%;
+    max-width: 650px;
+    height: 550px; 
+    position: relative;
+    box-shadow: 15px 15px 0px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+#modal-title {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    margin: 0;
+    z-index: 10;
+    color: #fff;
+    font-size: 1.6em;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 0px #000;
+}
+
+#modal-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.default-modal-content {
+    padding: 95px 30px 30px 30px;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.default-modal-content p {
+    margin: 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.4;
+}
+
+/* BOTÓN DE CIERRE (CUADRADO SIN RELLENO) */
+#close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #fff; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    background-color: transparent;
+    color: #fff;
+    font-family: 'RetroGaming', sans-serif;
+    font-size: 20px; 
+}
+
+#close-button:hover {
+    border-color: #ff4444;
+    color: #ff4444;
+}
+
+/* --- BOTON MUTE --- */
+#mute-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    min-width: 140px;
+    height: 44px;
+    border: 4px solid #fff;
+    background-color: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-family: 'RetroGaming', sans-serif;
+    font-size: 14px;
+    text-shadow: 2px 2px 0px #000;
+    cursor: pointer;
+    z-index: 150;
+}
+
+#mute-button:hover {
+    border-color: #ffdd57;
+    color: #ffdd57;
+}
+
+/* --- CONTROLES TACTILES (FLECHAS + ENTER) --- */
+#touch-controls {
+    position: fixed;
+    left: 20px;
+    bottom: 4px;
+    width: 250px;
+    height: 120px;
+    z-index: 150;
+    user-select: none;
+}
+
+.touch-btn {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    border: 3px solid #fff;
+    background-color: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-family: 'RetroGaming', sans-serif;
+    font-size: 18px;
+    text-shadow: 2px 2px 0px #000;
+    cursor: pointer;
+    padding: 0;
+}
+
+.touch-up { top: 0; left: 46px; }
+.touch-left { top: 46px; left: 0; }
+.touch-down { top: 46px; left: 46px; }
+.touch-right { top: 46px; left: 92px; }
+
+.touch-enter {
+    top: 46px;
+    left: 160px;
+    width: 64px;
+    font-size: 10px;
+}
+
+.touch-btn:active {
+    border-color: #ffdd57;
+    color: #ffdd57;
+}
+
+/* --- HITBOXES CLICKEABLES DE NODOS PRINCIPALES --- */
+.info-node-hitbox {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 9;
+    background: rgba(255, 230, 0, 0.25);
+    border: none;
+    padding: 0;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    box-shadow: inset 0 0 0 3px #ffe600, 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+/* --- SECCIÓN SOBRE MÍ --- */
+.about-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc; 
+}
+
+.about-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-am.png'); 
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6); /* Fondo tenue pero opaco */
+    z-index: 1;
+}
+
+/* --- SECCIÓN SOBRE MÍ (MODIFICADO) --- */
+/* --- SUSTITUYE ESTOS DOS BLOQUES EN TU CSS --- */
+
+.about-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 80px 30px 30px 30px; /* Bajamos un poco el padding superior */
+    height: 100%;
+    display: block; 
+    box-sizing: border-box;
+}
+
+.about-character-large {
+    float: right;
+    width: 200px; 
+    height: auto;
+    max-height: calc(100% - 90px);
+    
+    /* Espaciado parejo para que no se recorte y respire del borde */
+    margin-top: 0; 
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+
+    image-rendering: pixelated;
+    object-fit: contain;
+    filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.4));
+    position: relative;
+}
+
+.about-text-zone p {
+    margin: 0 0 15px 0;
+    color: #fff;
+    /* Quitamos el shadow blanco para que no brille raro con el fondo azul */
+    text-shadow: 2px 2px 0px #000; 
+    line-height: 1.4;
+}
+
+/* --- SECCIÓN DEPORTES (MISMA LÓGICA QUE ABOUT) --- */
+.sports-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc;
+}
+
+.sports-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-dep.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.sports-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 80px 30px 30px 30px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.sports-photo-left {
+    float: left;
+    width: 320px;
+    height: auto;
+    max-height: 250px;
+    margin: 6px 16px 10px 0;
+    image-rendering: pixelated;
+    object-fit: contain;
+    transform: none;
+    filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.4));
+}
+
+.sports-text-zone {
+    margin: 0;
+    padding-bottom: 0;
+    padding-top: 14px;
+}
+
+.sports-text-zone p {
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.4;
+}
+
+/* --- SECCIÓN HOBBIES (MISMA LÓGICA, IMAGEN A LA DERECHA) --- */
+.hobbies-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc;
+}
+
+.hobbies-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-pas.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.hobbies-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 80px 30px 30px 30px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.hobbies-photo-right {
+    float: right;
+    width: 300px;
+    height: auto;
+    max-height: 250px;
+    margin: 36px 0 10px 14px;
+    image-rendering: pixelated;
+    object-fit: contain;
+    filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.4));
+}
+
+.hobbies-text-zone {
+    margin: 0;
+    padding-top: 14px;
+}
+
+.hobbies-text-zone p {
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.4;
+}
+
+/* --- SECCIÓN SCHOOL (MISMA LÓGICA, IMAGEN ABAJO IZQUIERDA) --- */
+.school-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc;
+}
+
+.school-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-sc.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.school-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 100px 30px 30px 30px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.school-photo-left-bottom {
+    float: left;
+    width: 280px;
+    height: auto;
+    max-height: 220px;
+    margin: 12px 16px 0 0;
+    image-rendering: pixelated;
+    object-fit: contain;
+    filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.4));
+}
+
+.school-text-zone {
+    margin: 0;
+    padding-top: 12px;
+}
+
+.school-text-zone p {
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.4;
+}
+
+/* --- SECCIÓN FUTURO (IMAGEN A LA DERECHA, ALINEADA CON TEXTO) --- */
+.future-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc;
+}
+
+.future-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-fut.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.future-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 110px 30px 30px 30px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.future-photo-right {
+    float: right;
+    width: 280px;
+    height: auto;
+    max-height: 230px;
+    margin: 12px 0 10px 16px;
+    image-rendering: pixelated;
+    object-fit: contain;
+    filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.4));
+}
+
+.future-text-zone {
+    margin: 0;
+    padding-top: 0;
+}
+
+.future-text-zone p {
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.4;
+}
+
+/* --- SECCIÓN REDES (LISTA CON ICONOS CUADRADOS) --- */
+.redes-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc;
+}
+
+.redes-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-am.png');
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.redes-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 100px 40px 30px 40px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.redes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.redes-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.redes-icon-image {
+    width: 78px;
+    height: auto;
+    border: none;
+    background: none;
+    display: block;
+    flex-shrink: 0;
+}
+
+.redes-item p {
+    margin: 0;
+    min-height: 24px;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    font-size: 1.05em;
+    line-height: 1.3;
+}
+
+/* --- SECCIÓN CRÉDITOS --- */
+.credits-special-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5c94fc;
+}
+
+.credits-bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/fondo-cre.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.credits-content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 95px 30px 30px 30px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.credits-content-overlay p {
+    margin: 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.4;
+}
