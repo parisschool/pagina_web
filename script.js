@@ -160,6 +160,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 function openModal(infoId) {
+    document.body.classList.add('modal-open');
     const modal = document.getElementById('modal-container');
     const title = document.getElementById('modal-title');
     const body = document.getElementById('modal-body');
@@ -187,6 +188,7 @@ function openModal(infoId) {
 }
 
 function closeModal() {
+    document.body.classList.remove('modal-open');
     const modal = document.getElementById('modal-container');
     const body = document.getElementById('modal-body');
     
